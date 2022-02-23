@@ -3,12 +3,16 @@ import json
 from .models import CarDealer
 from requests.auth import HTTPBasicAuth
 
-def get_request(url, **kwargs):
+def get_request(url, api_key = "jTpXaiMwmzYbMR1v9-uJTJb9EPG0gYXte1EQN7hBL9JW", **kwargs):
     print(kwargs)
     print("GET from {} ".format(url))
     try:
+        if api_key:
         # Call get method of requests library with URL and parameters
-        response = requests.get(url, headers={'Content-Type': 'application/json'},
+            response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
+                                    auth=HTTPBasicAuth('apikey', api_key))
+        else:
+            response = requests.get(url, headers={'Content-Type': 'application/json'},
                                     params=kwargs)
     except:
         # If any error occurs
