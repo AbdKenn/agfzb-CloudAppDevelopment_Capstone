@@ -95,7 +95,7 @@ def registration_request(request):
 def get_dealerships(request):
     if request.method == "GET":
         #url = "your-cloud-function-domain/dealerships/dealer-get"
-        url = "https://eu-gb.functions.cloud.ibm.com/api/v1/namespaces/abdkenn96%40gmail.com_dev/actions/final_sub/dealership_seq"
+        url = "https://service.eu.apiconnect.ibmcloud.com/gws/apigateway/api/900338236e1f060e0903280ceee4fe2abc23403d0ae6ebe5ac1cb6e685ddbf25/api/dealership_seq"
         # Get dealers from the URL
         dealerships = get_dealers_from_cf(url)
         # Concat all dealer's short name
