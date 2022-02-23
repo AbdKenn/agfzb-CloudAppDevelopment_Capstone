@@ -105,7 +105,9 @@ def get_dealerships(request):
         return HttpResponse(dealer_names)
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
-# def get_dealer_details(request, dealer_id):
+def get_dealer_details(request, dealer_id):
+    url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/getAllRevies"
+    get_dealer_reviews_from_cf(url, dealerId) 
 # ...
 
 # Create a `add_review` view to submit a review

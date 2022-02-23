@@ -70,7 +70,7 @@ def get_dealer_reviews_from_cf(url, dealerId):
     review_obj.sentiment = analyze_review_sentiments(review_obj.review)
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
-def analyze_review_sentiments(text):
+def analyze_review_sentiments(text, **kwargs):
     from ibm_watson import NaturalLanguageUnderstandingV1
     from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
     from ibm_watson.natural_language_understanding_v1
@@ -92,9 +92,9 @@ def analyze_review_sentiments(text):
     params["return_analyzed_text"] = kwargs["return_analyzed_text"]
 
     url = "https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/7e025b1b-caf8-45cd-9307-756c56375dee"
-    response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
+    response = get_request(url, params=params, headers={'Content-Type': 'application/json'},
                                         auth=HTTPBasicAuth('apikey', "jTpXaiMwmzYbMR1v9-uJTJb9EPG0gYXte1EQN7hBL9JW"))
-    return
+    return response
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
 
