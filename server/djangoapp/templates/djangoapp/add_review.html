@@ -4,13 +4,109 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+             }
+
+        * {
+             box-sizing: border-box;
+          }
+
+        /* Add padding to containers */
+        .container {
+        padding: 16px;
+        background-color: white;
+            }
+
+        /* Full-width input fields */
+        input[type=text], input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+        }
+
+        input[type=text]:focus, input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+        }
+
+        /* Overwrite default styles of hr */
+        hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit button */
+        .registerbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+        opacity: 1;
+        }
+
+        /* Add a blue text color to links */
+        a {
+        color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+        }
+    </style>
 
 </head>
     <body>
-    <!--Add review form here -->
+        <form action="{% url 'djangoapp:add_review' %}" method="post">
+            <div class="container">
+              <h1>Sign Up</h1>
+              <hr>
+                
+    <label for="name"><b>User Name</b></label>
+    <input type="text" placeholder="Enter User Name" name="name" id="name" required>
+    
+	<label for="dealership"><b>dealership</b></label>
+    <input type="text" placeholder="Enter dealership" name="dealership" id="dealership" required>
+    
+    <label for="review"><b>review</b></label>
+    <input type="text" placeholder="Enter review" name="review" id="review" required>
+  
+    <label for="purchase"><b>purchase</b></label>
+    <input type="checkbox" placeholder="purchase" name="purchase" id="purchase" checked="checked">
+
+    <label for="purchase_date"><b>purchase date</b></label>
+    <input type="text" placeholder="purchase_date" name="purchase_date" id="purchase_date" required>
+	
+	    <label for="car_make"><b>car_make</b></label>
+    <input type="text" placeholder="car_make" name="car_make" id="car_make" required>
+	
+	    <label for="car_model"><b>car_model</b></label>
+    <input type="text" placeholder="car_model" name="car_model" id="car_model" required>
+	
+	    <label for="car_year"><b>car_year</b></label>
+    <input type="text" placeholder="car_year" name="car_year" id="car_year" required>
+                
+              <div>
+          {% csrf_token %}
+          <button class="button" type="submit">Add review</button>
+                  
+                  
+              </div>
+            </div>
+          </form>
     </body>
 </html>
