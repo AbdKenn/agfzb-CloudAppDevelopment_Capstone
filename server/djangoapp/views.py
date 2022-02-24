@@ -130,6 +130,7 @@ def add_review(request, dealer_id):
             review["car_model"] = request.POST["car_model"]
             review["car_year"] = request.POST["car_year"]
             json_payload["review"] = review
-            post_request(url,json_payload,**kwargs)
-    return "hello world"
+            response = post_request(url,json_payload,dealerId=dealer_id)
+    
+    return HTTPResponse(response)
 
