@@ -70,7 +70,7 @@ def get_dealer_reviews_from_cf(url, dealerId = ""):
         dealers = json_result["rows"]
         for dealer in dealers:
             dealer_doc = dealer["doc"]
-            #sentiment = analyze_review_sentiments(dealer_doc["review"])
+            sentiment = analyze_review_sentiments(dealer_doc["review"])
             if dealer_doc["purchase"] == True:
                 review_obj = DealerReview(
                     dealership = dealer_doc["dealership"],
@@ -81,7 +81,7 @@ def get_dealer_reviews_from_cf(url, dealerId = ""):
                     car_make = dealer_doc["car_make"],
                     car_model = dealer_doc["car_model"],
                     id = dealer_doc["id"],
-                    car_year = dealer_doc["car_year"] , sentiment = "sentiment"      
+                    car_year = dealer_doc["car_year"] , sentiment = sentiment     
                     )
             else:
                 review_obj = DealerReview(
@@ -90,7 +90,7 @@ def get_dealer_reviews_from_cf(url, dealerId = ""):
                     purchase = dealer_doc["purchase"],
                     review = dealer_doc["review"],
                     id = dealer_doc["id"],
-                    sentiment = "sentiment"      
+                    sentiment = sentiment      
                     )              
    
         results.append(review_obj)
