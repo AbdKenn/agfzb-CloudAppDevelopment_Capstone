@@ -93,7 +93,7 @@ def get_dealer_reviews_from_cf(url, dealerId = ""):
                     sentiment = sentiment      
                     )              
    
-        results.append(review_obj)
+            results.append(review_obj)
         
     return results
 

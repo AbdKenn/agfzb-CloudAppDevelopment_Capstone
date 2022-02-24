@@ -108,7 +108,7 @@ def get_dealerships(request):
 def get_dealer_details(request):#, dealer_id):
     url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/getAllRevies"
     reviews_obj = get_dealer_reviews_from_cf(url)#, dealerId) 
-    reviews = ' '.join([(review.review, review.sentiment) for review in reviews_obj])
+    reviews = ' '.join(["Review : " + review.review + " => sentiment : " +  review.sentiment + "<br>" for review in reviews_obj])
 
     return HttpResponse(reviews)
 # ...
