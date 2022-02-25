@@ -23,6 +23,8 @@ def static_(request):
 def about(request):
     return render(request, 'djangoapp/about.html')
 
+def review(request):
+    return render(request, 'djangoapp/add_review.html')
 
 
 # Create a `contact` view to return a static contact page
