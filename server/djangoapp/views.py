@@ -106,7 +106,7 @@ def get_dealerships(request):
         dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
         # Return a list of dealer short name
         
-        render(request, 'djangoapp/index.html', context=context)
+        return render(request, 'djangoapp/index.html', context=context)
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
 def get_dealer_details(request, dealerId):

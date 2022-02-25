@@ -82,7 +82,7 @@ def get_dealer_reviews_from_cf(url, dealerId = ""):
                         car_make = dealer_doc["car_make"],
                         car_model = dealer_doc["car_model"],
                         id = dealer_doc["id"],
-                        car_year = dealer_doc["car_year"] , sentiment = "sentiment"      
+                        car_year = dealer_doc["car_year"] , sentiment = sentiment      
                         )
                 else:
                     review_obj = DealerReview(
