@@ -116,7 +116,7 @@ def get_dealer_details(request, dealerId):
 # ...
 
 # Create a `add_review` view to submit a review
-def add_review(request, dealerId):
+def add_review(request):#, dealerId):
     url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/write_review_py"
     #if request.user.is_authenticated():
     if request.method == 'GET':
