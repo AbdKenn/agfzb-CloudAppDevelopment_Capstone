@@ -105,32 +105,34 @@ def get_dealerships(request):
         return HttpResponse(dealer_names)
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
-def get_dealer_details(request):#, dealer_id):
+def get_dealer_details(request, dealerId):
     url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/getAllRevies"
-    reviews_obj = get_dealer_reviews_from_cf(url)#, dealerId) 
+    reviews_obj = get_dealer_reviews_from_cf(url, dealerId) 
     reviews = ' '.join(["Review : " + review.review + " => sentiment : " +  review.sentiment + "<br>" for review in reviews_obj])
 
     return HttpResponse(reviews)
 # ...
 
 # Create a `add_review` view to submit a review
-def add_review(request, dealer_id):
+def add_review(request, dealerId):
     url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/write_review_py"
-    if request.user.is_authenticated():
-        if request.method == 'POST':
-            json_payload = dict()
-            review = dict()
-            review["id"] = dealer_id,
-            review["name"] = request.POST["name"]
-            review["dealership"] = request.POST["dealership"]
-            review["review"] = request.POST["review"]
-            review["purchase"] = request.POST["purchase"]
-            review["purchase_date"] = request.POST["purchase_date"]
-            review["car_make"] = request.POST["car_make"]
-            review["car_model"] = request.POST["car_model"]
-            review["car_year"] = request.POST["car_year"]
-            json_payload["review"] = review
-            response = post_request(url,json_payload,dealerId=dealer_id)
-    
-    return HTTPResponse(response)
+    #if request.user.is_authenticated():
+    if request.method == 'GET':
+        return render(request, 'djangoapp/add_review.html')
+    if request.method == 'POST':
+        json_payload = dict()
+        review = dict()
+        review["id"] = dealerId,
+        review["name"] = request.POST["name"]
+        review["dealership"] = request.POST["dealership"]
+        review["review"] = request.POST["review"]
+        review["purchase"] = request.POST["purchase"]
+        review["purchase_date"] = request.POST["purchase_date"]
+        review["car_make"] = request.POST["car_make"]
+        review["car_model"] = request.POST["car_model"]
+        review["car_year"] = request.POST["car_year"]
+        json_payload["review"] = review
+        response = post_request(url,review,dealerId=dealerId)
+
+        return HttpResponse(response)
 
