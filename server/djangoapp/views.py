@@ -110,11 +110,13 @@ def get_dealerships(request):
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
 def get_dealer_details(request, dealerId):
+    context = {}
     url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/getAllRevies"
     reviews_obj = get_dealer_reviews_from_cf(url, dealerId) 
     reviews = ' '.join(["Review : " + review.review + " => sentiment : " +  review.sentiment + "<br>" for review in reviews_obj])
+    context["reviews_list"] = reviews_obj
 
-    return HttpResponse(reviews)
+    return render(request, 'djangoapp/dealer_details.html', context)
 # ...
 
 # Create a `add_review` view to submit a review
@@ -138,5 +140,5 @@ def add_review(request):#, dealerId):
         json_payload["review"] = review
         response = post_request(url,review,dealerId=1)
 
-        return  HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
+        return  render(request, 'djangoapp/dealer_details.html')#HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
 
