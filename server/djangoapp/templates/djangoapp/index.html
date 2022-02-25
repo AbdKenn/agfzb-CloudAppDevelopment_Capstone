@@ -47,9 +47,43 @@
                   </ul>
         </div>
     </nav>
+    <nav>
     <div>
-    {{ dealer_names }}
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                    <th data-field="id">ID</th>
+                    <th data-field="full_name">Dealer Name</th>
+                    <th data-field="city">City</th>
+                    <th data-field="address">Address</th>
+                    <th data-field="zip">Zip</th>
+                    <th data-field="state">State</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><a href="#">Abd</a></td>
+                    <td>Paris</td>
+                    <td>00</td>
+                    <td>1000</td>
+                    <td>NY</td>
+                </tr>
+                {% for  key, dealer in context.items %}
+                    <tr>
+                        <td>{{dealer.id}}</td>
+                        <!--<td><a href="{% url 'djangoapp:dealerdetails' dealer.id %}">{{dealer.full_name}}</a></td>-->
+                        <td><a href="#">{{dealer.full_name}}</a></td>
+                        <td>{{dealer.city}}</td>
+                        <td>{{dealer.address}}</td>
+                        <td>{{dealer.zip}}</td>
+                        <td>{{dealer.st}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+</nav>
     </body>
 
 </html>
