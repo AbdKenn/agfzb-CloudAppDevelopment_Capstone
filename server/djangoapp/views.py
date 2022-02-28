@@ -127,27 +127,29 @@ def add_review(request, dealerId):
 
     #url_get_dealer_id = "https://service.eu.apiconnect.ibmcloud.com/gws/apigateway/api/900338236e1f060e0903280ceee4fe2abc23403d0ae6ebe5ac1cb6e685ddbf25/api/dealership_seq"
     # Get dealers from the URL
-    #dealerships = get_dealers_from_cf(url_get_dealer_id)
-    #id_ = dealerships.id
-    #context["dealerId"] = id_
+    context = {}
+    context["dealerId"] = dealerId
    
     #if request.user.is_authenticated():
     if request.method == 'GET':
-        return render(request, 'djangoapp/add_review.html', context = {"dealerId" : dealerId})
+        context["CarModel"] = CarModel.objects.filter(id = dealerId)
+        return render(request, 'djangoapp/add_review.html', context = context)
     if request.method == 'POST':
         json_payload = dict()
         review = dict()
-        review["id"] = dealerId,
-        review["name"] = request.POST["name"]
-        review["dealership"] = request.POST["dealership"]
-        review["review"] = request.POST["review"]
-        review["purchase"] = request.POST["purchase"]
-        review["purchase_date"] = request.POST["purchase_date"]
-        review["car_make"] = request.POST["car_make"]
-        review["car_model"] = request.POST["car_model"]
-        review["car_year"] = request.POST["car_year"]
+        #review["id"] = dealerId,
+        #review["name"] = request.POST["name"]
+        #review["dealership"] = request.POST["dealership"]
+        #review["review"] = request.POST["content"]
+        #review["purchase"] = request.POST["purchase"]
+        #review["purchase_date"] = datetime.utcnow().isoformat()
+        #review["car_make"] = request.POST["car_make"]
+        #review["car_model"] = request.POST["car_model"]
+        #review["car_year"] = request.POST["car_year"]
+        
+        review["id"] = dealerId
         json_payload["review"] = review
         response = post_request(url,review,dealerId=dealerId)
 
-        return  render(request, 'djangoapp/add_review.html', context = {"dealerId" : dealerId})#HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
+        return  render(request, 'djangoapp/add_review.html', context = context)#HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
                 #redirect("djangoapp:get_dealer_details")
