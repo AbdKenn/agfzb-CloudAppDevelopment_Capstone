@@ -148,8 +148,18 @@ def add_review(request, dealerId):
         #review["car_year"] = request.POST["car_year"]
         
         review["id"] = dealerId
+        review["review"] = request.POST["content"]
+        car = request.POST
+        review["review_time"] = datetime.utcnow().isoformat() #datetime.now()
+        year = datetime.strptime(request.POST["purchasedate"], "%Y/%m/%d")
+        review["car_year"] =  year.strftime("%Y")
+
         json_payload["review"] = review
         response = post_request(url,review,dealerId=dealerId)
 
-        return  render(request, 'djangoapp/add_review.html', context = context)#HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
+        return  HttpResponse(str(dealerId) + "<br>"+ review["review"] + "<br>" + json.dumps(car) + "<br>" + review["car_year"])
+        #redirect("djangoapp:get_dealer_details", dealerId=dealerId)
+                #HttpResponse(str(dealerId) + "<br>"+ review["review"]) 
+                #render(request, 'djangoapp/add_review.html', context = context)#HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
                 #redirect("djangoapp:get_dealer_details")
+                #redirect("djangoapp:dealer_details", dealer_id=dealerId)
