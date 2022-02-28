@@ -9,6 +9,7 @@ from django.contrib import messages
 from datetime import datetime
 import logging
 import json
+from django.shortcuts import get_object_or_404
 
 
 # Get an instance of a logger
@@ -115,6 +116,7 @@ def get_dealer_details(request, dealerId):
     reviews_obj = get_dealer_reviews_from_cf(url, dealerId) 
     reviews = ' '.join(["Review : " + review.review + " => sentiment : " +  review.sentiment + "<br>" for review in reviews_obj])
     context["reviews_list"] = reviews_obj
+    context["dealerId"] = dealerId
 
     return render(request, 'djangoapp/dealer_details.html', context)
 # ...
@@ -122,9 +124,16 @@ def get_dealer_details(request, dealerId):
 # Create a `add_review` view to submit a review
 def add_review(request, dealerId):
     url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/write_review_py"
+
+    #url_get_dealer_id = "https://service.eu.apiconnect.ibmcloud.com/gws/apigateway/api/900338236e1f060e0903280ceee4fe2abc23403d0ae6ebe5ac1cb6e685ddbf25/api/dealership_seq"
+    # Get dealers from the URL
+    #dealerships = get_dealers_from_cf(url_get_dealer_id)
+    #id_ = dealerships.id
+    #context["dealerId"] = id_
+   
     #if request.user.is_authenticated():
     if request.method == 'GET':
-        return render(request, 'djangoapp/add_review.html')
+        return render(request, 'djangoapp/add_review.html', context = context)
     if request.method == 'POST':
         json_payload = dict()
         review = dict()
@@ -140,5 +149,5 @@ def add_review(request, dealerId):
         json_payload["review"] = review
         response = post_request(url,review,dealerId=dealerId)
 
-        return  render(request, 'djangoapp/add_review.html')#HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
+        return  render(request, 'djangoapp/add_review.html', context = context)#HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
                 #redirect("djangoapp:get_dealer_details")
