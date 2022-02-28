@@ -75,7 +75,17 @@
             <div class="container">
               <h1>Add review</h1>
               <hr>
-                
+
+              <textarea class="form-control" id="content" name="content" rows="2" required>This is a good car dealer!</textarea>
+              <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
+              <select name="car" id="car" class="form-select" required>
+                {% for car in cars %}
+                    <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                {% endfor %}
+              </select>
+              <input class="date-own form-control" type="text" name="purchasedate" id="purchasedate">
+
+    <!--            
     <label for="name"><b>User Name</b></label>
     <input type="text" placeholder="Enter User Name" name="name" id="name" required>
     
@@ -99,7 +109,7 @@
 	
 	    <label for="car_year"><b>car_year</b></label>
     <input type="text" placeholder="car_year" name="car_year" id="car_year" required>
-                
+    -->           
               <div>
           {% csrf_token %}
           <button class="button" type="submit">Add review</button>
@@ -109,4 +119,9 @@
             </div>
           </form>
     </body>
+    <script type="text/javascript">
+        $('.date-own').datepicker({
+           format: 'mm/dd/yyyy'
+         });
+   </script>
 </html>

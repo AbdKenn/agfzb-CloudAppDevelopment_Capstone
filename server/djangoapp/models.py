@@ -21,7 +21,7 @@ class CarModel(models.Model):
     id = models.CharField(max_length=2)
     type = models.CharField(max_length=10)
     year = models.DateField(null=True)
-    carmakes = models.ManyToManyField(CarMake)
+    carmakes = models.ForeignKey(CarMake, on_delete = models.CASCADE)
 
     def __str__(self):
         return self.name
