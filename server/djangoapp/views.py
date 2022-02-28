@@ -114,7 +114,7 @@ def get_dealer_details(request, dealerId):
     context = {}
     url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/getAllRevies"
     reviews_obj = get_dealer_reviews_from_cf(url, dealerId) 
-    reviews = ' '.join(["Review : " + review.review + " => sentiment : " +  review.sentiment + "<br>" for review in reviews_obj])
+    #reviews = ' '.join(["Review : " + review.review + " => sentiment : " +  review.sentiment + "<br>" for review in reviews_obj])
     context["reviews_list"] = reviews_obj
     context["dealerId"] = dealerId
 
@@ -123,13 +123,14 @@ def get_dealer_details(request, dealerId):
 
 # Create a `add_review` view to submit a review
 def add_review(request, dealerId):
-    url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/write_review_py"
+    #url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/api/write_review_py"
+    url = "https://d7967b35.eu-gb.apigw.appdomain.cloud/apitest/post_review_seq"
 
     #url_get_dealer_id = "https://service.eu.apiconnect.ibmcloud.com/gws/apigateway/api/900338236e1f060e0903280ceee4fe2abc23403d0ae6ebe5ac1cb6e685ddbf25/api/dealership_seq"
     # Get dealers from the URL
     context = {}
     context["dealerId"] = dealerId
-   
+
     #if request.user.is_authenticated():
     if request.method == 'GET':
         context["CarModel"] = CarModel.objects.filter(id = dealerId)
@@ -149,15 +150,30 @@ def add_review(request, dealerId):
         
         review["id"] = dealerId
         review["review"] = request.POST["content"]
-        car = request.POST
+        car = request.POST["car"]
+        model = car.split("-")[0]
+        make = car.split("-")[1]
+        year = car.split("-")[2]
+        review["car_model"] = model
+        review["car_make"] = make
+        review["car_year"] = year
+        review["purchase"] = request.POST["purchasecheck"]
+        review["purchase_date"] = request.POST["purchasedate"]
+
+
         review["review_time"] = datetime.utcnow().isoformat() #datetime.now()
-        year = datetime.strptime(request.POST["purchasedate"], "%Y/%m/%d")
-        review["car_year"] =  year.strftime("%Y")
+        #year_ = datetime.strptime(request.POST["purchasedate"], "%Y/%m/%d")
+        #review["car_year"] =  year_.strftime("%Y")
 
         json_payload["review"] = review
         response = post_request(url,review,dealerId=dealerId)
 
-        return  HttpResponse(str(dealerId) + "<br>"+ review["review"] + "<br>" + json.dumps(car) + "<br>" + review["car_year"])
+        return redirect("djangoapp:get_dealer_details", dealerId=dealerId)
+
+        #HttpResponse(str(dealerId) + "<br>"  + json.dumps(request.POST) + "<br>" + json.dumps(review))#+ "<br>" + context["CarModel"][car].name+"-"+context["CarModel"][car].carmakes.name+"-")#+context["CarModel"][car].year )
+        #redirect("djangoapp:get_dealer_details", dealerId=dealerId)
+
+         #HttpResponse(str(dealerId) + "<br>"  + json.dumps(request.POST) + "<br>" + json.dumps(review))#+ "<br>" + context["CarModel"][car].name+"-"+context["CarModel"][car].carmakes.name+"-")#+context["CarModel"][car].year )
         #redirect("djangoapp:get_dealer_details", dealerId=dealerId)
                 #HttpResponse(str(dealerId) + "<br>"+ review["review"]) 
                 #render(request, 'djangoapp/add_review.html', context = context)#HttpResponse(response)#HttpResponse(review["name"] + "<br>" + review["review"]) #HttpResponse(response)
